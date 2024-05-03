@@ -30,6 +30,42 @@ class Produk extends DB
         return $this->execute($query);
     }
 
+    function getProdukOrderByHargaAscending()
+    {
+        $query = "SELECT * FROM produk 
+                JOIN merk ON produk.id_merk=merk.id_merk 
+                JOIN bahan ON produk.id_bahan=bahan.id_bahan 
+                ORDER BY harga ASC";
+        return $this->execute($query);
+    }
+
+    function getProdukOrderByNamaAscending()
+    {
+        $query = "SELECT * FROM produk 
+                JOIN merk ON produk.id_merk=merk.id_merk 
+                JOIN bahan ON produk.id_bahan=bahan.id_bahan 
+                ORDER BY nama_produk ASC";
+        return $this->execute($query);
+    }
+
+    function getProdukOrderByMerkAscending()
+    {
+        $query = "SELECT * FROM produk 
+                JOIN merk ON produk.id_merk=merk.id_merk 
+                JOIN bahan ON produk.id_bahan=bahan.id_bahan 
+                ORDER BY nama_merk ASC";
+        return $this->execute($query);
+    }
+
+    function getProdukOrderByBahanAscending()
+    {
+        $query = "SELECT * FROM produk 
+                JOIN merk ON produk.id_merk=merk.id_merk 
+                JOIN bahan ON produk.id_bahan=bahan.id_bahan 
+                ORDER BY nama_bahan ASC";
+        return $this->execute($query);
+    }
+
     function addData($data, $file)
     {
         $harga = $data['harga'];

@@ -19,9 +19,23 @@ $listProduk->getProdukJoin();
 if (isset($_POST['btn-cari'])) {
     // methode mencari data Produk
     $listProduk->searchProduk($_POST['cari']);
-} else {
+} else if (isset($_GET['orderBy'])) {
+    $order = $_GET['orderBy'];
+
+    if($order == 'harga'){
+        $listProduk->getProdukOrderByHargaAscending();
+    } else if($order == 'nama'){
+        $listProduk->getProdukOrderByNamaAscending();
+    } else if($order == 'merk'){
+        $listProduk->getProdukOrderByMerkAscending();
+    }else if($order == 'bahan'){
+        $listProduk->getProdukOrderByBahanAscending();
+    }
+}
+else {
     // method menampilkan data Produk
     $listProduk->getProdukJoin();
+    
 }
 
 $data = null;
