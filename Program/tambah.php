@@ -7,13 +7,18 @@ include('classes/Bahan.php');
 include('classes/Produk.php');
 include('classes/Template.php');
 
-
+//Jika mendapat 'nilai'
 if (isset($_GET['nilai'])) {
+    //tampung nilai
     $nilai = $_GET['nilai'];
 
+    // buat instance tamplate
     $view = new Template('templates/skinform.html');
 
+    //cek nilai
     if ($nilai == 'produk') {
+        //jika nilai = produk
+        // buat instance produk, merk dan bahan
         $produk = new Produk($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_NAME);
         $produk->open();
         $merk = new Merk($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_NAME);
@@ -21,10 +26,11 @@ if (isset($_GET['nilai'])) {
         $bahan = new Bahan($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_NAME);
         $bahan->open();
 
+        //dapatkan merk dan bahan
         $merk->getMerk();
         $bahan->getBahan();
 
-        // $data = nulL;
+        //menambah data
         if (isset($_POST['btn-submit'])) {
             // Ambil data dari form
             $data = array(
@@ -50,8 +56,10 @@ if (isset($_GET['nilai'])) {
                 </script>";
             }
         }
-
+        //tutup produk
         $produk->close();
+
+        //tampilan form
         $form = '<form method="post" enctype="multipart/form-data" class="tambah-data">
         <div class="mb-3">
             <label for="nama" class="form-label">Nama</label>
@@ -95,10 +103,15 @@ if (isset($_GET['nilai'])) {
             <a href="index.php" class="btn btn-secondary">Cancel</a>
         </div>  
         </form>';
+
         $namaForm = 'Produk';
+
+        //tutup bahan dan merk
         $merk->close();
         $bahan->close();
     } else if ($nilai == 'merk') {
+        //jika nilai = merk
+        //tampilan form
         $form = '<form method="post" enctype="multipart/form-data" class="tambah-data" action="merk.php">
         <div class="mb-3">
             <label for="nama" class="form-label">Nama Merk</label>
@@ -113,8 +126,11 @@ if (isset($_GET['nilai'])) {
             <a href="merk.php" class="btn btn-secondary">Cancel</a>
         </div>  
         </form>';
+
         $namaForm = 'Merk';
     } else if ($nilai == 'bahan') {
+        //jika nilai bahan
+        //tampilan form
         $form = '<form method="post" enctype="multipart/form-data" class="tambah-data" action="bahan.php">
         <div class="mb-3">
             <label for="nama" class="form-label">Nama Bahan</label>
@@ -129,9 +145,11 @@ if (isset($_GET['nilai'])) {
             <a href="bahan.php" class="btn btn-secondary">Cancel</a>
         </div>  
         </form>';
+
         $namaForm = 'Bahan';
     }
 }
+
 $aksi = 'Tambah';
 
 $view->replace('DATA_NAMA_FORM', $namaForm);

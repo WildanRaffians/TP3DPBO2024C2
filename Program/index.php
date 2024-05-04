@@ -7,7 +7,7 @@ include('classes/Bahan.php');
 include('classes/Produk.php');
 include('classes/Template.php');
 
-// buat instance pengurus
+// buat instance produk
 $listProduk = new Produk($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_NAME);
 
 // buka koneksi

@@ -9,9 +9,14 @@ $bahan = new Bahan($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_NAME);
 $bahan->open();
 $bahan->getBahan();
 
+//Untuk menambah data
+//cek apakah mendapat 'id
 if (!isset($_GET['id'])) {
+    //jika tidak
     if (isset($_POST['btn-submit'])) {
+        //jika tombol 'btn-submit' ditekan
         if ($bahan->addBahan($_POST) > 0) {
+            //tambah bahan berhasil
             echo "<script>
                 alert('Data berhasil ditambah!');
                 document.location.href = 'bahan.php';
@@ -28,8 +33,10 @@ if (!isset($_GET['id'])) {
     $title = 'Tambah';
 }
 
+//siapkan view untuk tabel
 $view = new Template('templates/skintabel.html');
 
+//inisialisasi
 $mainTitle = 'Bahan';
 $header = '<tr>
 <th scope="row">No.</th>
@@ -41,6 +48,7 @@ $data = null;
 $no = 1;
 $formLabel = 'bahan';
 
+//tampilkan tabel
 while ($div = $bahan->getResult()) {
     $data .= '<tr>
     <th scope="row">' . $no . '</th>
@@ -53,11 +61,17 @@ while ($div = $bahan->getResult()) {
     $no++;
 }
 
+//Untuk mengupdate bahan
+//cek apakah mendapat 'id'
 if (isset($_GET['id'])) {
-    $id = $_GET['id'];
+    //jika iya
+    $id = $_GET['id'];  //tampung 'id'
     if ($id > 0) {
         if (isset($_POST['submit'])) {
+            //jika ditekan tombol 'submit'
+            //simpan update
             if ($bahan->updateBahan($id, $_POST) > 0) {
+                //update berhasil
                 echo "<script>
                 alert('Data berhasil diubah!');
                 document.location.href = 'bahan.php';
@@ -81,6 +95,8 @@ if (isset($_GET['id'])) {
     }
 }
 
+//menghapus bahan
+//jika mendapat 'hapus'
 if (isset($_GET['hapus'])) {
     $id = $_GET['hapus'];
     if ($id > 0) {
@@ -108,6 +124,8 @@ $view->replace('DATA_FORM_LABEL', $formLabel);
 $view->replace('DATA_TABEL', $data);
 $view->write();
 ?>
+
+<!-- Pop up confirm delete -->
 <script>
     function confirmDelete(id) {
         if (confirm("Produk dengan Bahan ini akan ikut terhapus. \nApakah Anda yakin ingin menghapus data ini?")) {

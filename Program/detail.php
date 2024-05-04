@@ -12,6 +12,7 @@ $produk->open();
 
 $data = nulL;
 
+//Menampilakn detail data produk
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     if ($id > 0) {
@@ -72,6 +73,7 @@ if (isset($_GET['id'])) {
 
 $detail = new Template('templates/skindetail.html');
 
+//Hapus data produk
 if (isset($_GET['hapus'])) {
     $id = $_GET['hapus'];
     if ($id > 0) {
@@ -93,6 +95,7 @@ $detail->replace('DATA_DETAIL_PRODUK', $data);
 $detail->write();
 ?>
 
+<!-- Pop up confirm delete -->
 <script>
     function confirmDelete(id) {
         if (confirm("Apakah Anda yakin ingin menghapus data ini?")) {

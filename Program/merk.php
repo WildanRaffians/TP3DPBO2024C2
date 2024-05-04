@@ -9,7 +9,8 @@ $merk = new Merk($DB_HOST, $DB_USERNAME, $DB_PASSWORD, $DB_NAME);
 $merk->open();
 $merk->getMerk();
 
-if (!isset($_GET['id'])) {
+//Menambah data merk
+if (!isset($_GET['id'])) {  //jika tidak mendapat 'id'
     if (isset($_POST['btn-submit'])) {
         if ($merk->addMerk($_POST) > 0) {
             echo "<script>
@@ -30,6 +31,7 @@ if (!isset($_GET['id'])) {
 
 $view = new Template('templates/skintabel.html');
 
+//inisialisasi
 $mainTitle = 'Merk';
 $header = '<tr>
 <th scope="row">No.</th>
@@ -41,6 +43,7 @@ $data = null;
 $no = 1;
 $formLabel = 'merk';
 
+//Tampilkan data merk
 while ($div = $merk->getResult()) {
     $data .= '<tr>
     <th scope="row">' . $no . '</th>
@@ -53,6 +56,8 @@ while ($div = $merk->getResult()) {
     $no++;
 }
 
+//Update data
+//jika mendapat 'id'
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     if ($id > 0) {
@@ -81,6 +86,7 @@ if (isset($_GET['id'])) {
     }
 }
 
+//Hapus data
 if (isset($_GET['hapus'])) {
     $id = $_GET['hapus'];
     if ($id > 0) {
@@ -108,6 +114,8 @@ $view->replace('DATA_FORM_LABEL', $formLabel);
 $view->replace('DATA_TABEL', $data);
 $view->write();
 ?>
+
+<!-- Pop up confirm delete -->
 <script>
     function confirmDelete(id) {
         if (confirm("Produk dengan Merk ini akan ikut terhapus. \nApakah Anda yakin ingin menghapus data ini?")) {

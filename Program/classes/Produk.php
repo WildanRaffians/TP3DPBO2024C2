@@ -2,6 +2,7 @@
 
 class Produk extends DB
 {
+    //menampilkan produk yang sudah di join dengan bahan dan merk
     function getProdukJoin()
     {
         $query = "SELECT * FROM produk JOIN merk ON produk.id_merk=merk.id_merk JOIN bahan ON produk.id_bahan=bahan.id_bahan ORDER BY produk.id_produk";
@@ -9,63 +10,21 @@ class Produk extends DB
         return $this->execute($query);
     }
 
+    //menampilkan produk tanpa join
     function getProduk()
     {
         $query = "SELECT * FROM produk";
         return $this->execute($query);
     }
 
+    //menampilkan produk dengan id tertentu (Join dengan merk dan bahan)
     function getProdukById($id)
     {
         $query = "SELECT * FROM produk JOIN merk ON produk.id_merk=merk.id_merk JOIN bahan ON produk.id_bahan=bahan.id_bahan WHERE id_produk=$id";
         return $this->execute($query);
     }
 
-    function searchProduk($keyword)
-    {
-        $query = "SELECT * FROM produk 
-                JOIN merk ON produk.id_merk=merk.id_merk 
-                JOIN bahan ON produk.id_bahan=bahan.id_bahan 
-                WHERE nama_produk LIKE '%$keyword%'";
-        return $this->execute($query);
-    }
-
-    function getProdukOrderByHargaAscending()
-    {
-        $query = "SELECT * FROM produk 
-                JOIN merk ON produk.id_merk=merk.id_merk 
-                JOIN bahan ON produk.id_bahan=bahan.id_bahan 
-                ORDER BY harga ASC";
-        return $this->execute($query);
-    }
-
-    function getProdukOrderByNamaAscending()
-    {
-        $query = "SELECT * FROM produk 
-                JOIN merk ON produk.id_merk=merk.id_merk 
-                JOIN bahan ON produk.id_bahan=bahan.id_bahan 
-                ORDER BY nama_produk ASC";
-        return $this->execute($query);
-    }
-
-    function getProdukOrderByMerkAscending()
-    {
-        $query = "SELECT * FROM produk 
-                JOIN merk ON produk.id_merk=merk.id_merk 
-                JOIN bahan ON produk.id_bahan=bahan.id_bahan 
-                ORDER BY nama_merk ASC";
-        return $this->execute($query);
-    }
-
-    function getProdukOrderByBahanAscending()
-    {
-        $query = "SELECT * FROM produk 
-                JOIN merk ON produk.id_merk=merk.id_merk 
-                JOIN bahan ON produk.id_bahan=bahan.id_bahan 
-                ORDER BY nama_bahan ASC";
-        return $this->execute($query);
-    }
-
+    //Fungsi menambahkan data
     function addData($data, $file)
     {
         $harga = $data['harga'];
@@ -91,7 +50,7 @@ class Produk extends DB
         return $result > 0;
     }
 
-
+    //fungsi edit/update data
     function updateData($id, $data, $file)
     {
         $nama = $data['nama'];
@@ -100,14 +59,14 @@ class Produk extends DB
         $id_bahan = $data['id_bahan'];
         $harga = $data['harga'];
     
-        // Check if $file is a string (indicating the old file name) or an array (indicating a new file upload)
+        //cek apakah terdapat file foto baru yang di upload
         if (is_array($file) && $file['error'] === UPLOAD_ERR_OK) {
-            // Handle new file upload
+            // jika iya
             $foto = $file['name'];
-            // Move the uploaded file to the desired directory
+            // Pindahkan file yang diunggah ke direktori tujuan
             move_uploaded_file($file['tmp_name'], 'assets/images/' . $foto);
         } else {
-            // Use the old file name
+            // Jika tidak, gunakan foto lama
             $foto = $file;
         }
     
@@ -115,9 +74,60 @@ class Produk extends DB
         return $this->executeAffected($query);
     }
 
+    //fungsi delete data
     function deleteData($id)
     {
         $query = "DELETE FROM produk WHERE id_produk=$id";
         return $this->executeAffected($query);
+    }
+    
+    //fungsi searching berdasarkan nama
+    function searchProduk($keyword)
+    {
+        $query = "SELECT * FROM produk 
+                JOIN merk ON produk.id_merk=merk.id_merk 
+                JOIN bahan ON produk.id_bahan=bahan.id_bahan 
+                WHERE nama_produk LIKE '%$keyword%'";
+        return $this->execute($query);
+    }
+
+    //fungsi sorting berdasarkan harga secara ascend
+    function getProdukOrderByHargaAscending()
+    {
+        $query = "SELECT * FROM produk 
+                JOIN merk ON produk.id_merk=merk.id_merk 
+                JOIN bahan ON produk.id_bahan=bahan.id_bahan 
+                ORDER BY harga ASC";
+        return $this->execute($query);
+    }
+    
+    //fungsi sorting berdasarkan nama produk secara ascend
+    function getProdukOrderByNamaAscending()
+    {
+        $query = "SELECT * FROM produk 
+                JOIN merk ON produk.id_merk=merk.id_merk 
+                JOIN bahan ON produk.id_bahan=bahan.id_bahan 
+                ORDER BY nama_produk ASC";
+        return $this->execute($query);
+    }
+    
+    //fungsi sorting berdasarkan nama merk secara ascend
+    function getProdukOrderByMerkAscending()
+    {
+        $query = "SELECT * FROM produk 
+                JOIN merk ON produk.id_merk=merk.id_merk 
+                JOIN bahan ON produk.id_bahan=bahan.id_bahan 
+                ORDER BY nama_merk ASC";
+        return $this->execute($query);
+    }
+    
+    //fungsi sorting berdasarkan nama bahan secara ascend
+    function getProdukOrderByBahanAscending()
+    {
+        $query = "SELECT * FROM produk 
+                JOIN merk ON produk.id_merk=merk.id_merk 
+                JOIN bahan ON produk.id_bahan=bahan.id_bahan 
+                ORDER BY nama_bahan ASC";
+        return $this->execute($query);
     }
 }
